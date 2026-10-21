@@ -1,0 +1,111 @@
+# Replace YOURUSER and the worker URL (see README, "Editor setup").
+backend:
+  name: github
+  repo: YOURUSER/akanksh-site
+  branch: main
+  base_url: https://akanksh-auth.YOURSUBDOMAIN.workers.dev
+  auth_endpoint: auth
+publish_mode: editorial_workflow   # Draft -> In review -> Ready (opens a PR; merge = publish)
+media_folder: public/uploads
+public_folder: /akanksh-site/uploads
+collections:
+  - name: writing
+    label: Writing
+    folder: src/content/writing
+    extension: md
+    create: true
+    slug: "{{slug}}"
+    fields: &common
+      - { name: title, label: Title, widget: string }
+      - { name: summary, label: Summary, widget: text }
+      - { name: date, label: Date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: tags, label: Tags, widget: list, required: false }
+      - { name: draft, label: Draft, widget: boolean, default: true }
+      - { name: category, label: Category, widget: string, default: General }
+      - { name: body, label: Body, widget: markdown }
+  - name: notes
+    label: Knowledge notes
+    folder: src/content/notes
+    extension: md
+    create: true
+    fields: *common
+  - name: projects
+    label: Projects
+    folder: src/content/projects
+    extension: md
+    create: true
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: summary, label: Summary, widget: text }
+      - { name: date, label: Date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: featured, label: Featured, widget: boolean, default: false }
+      - { name: tech, label: Technologies, widget: list, required: false }
+      - { name: repo, label: Repo URL, widget: string, required: false }
+      - { name: demo, label: Demo URL, widget: string, required: false }
+      - { name: tags, label: Tags, widget: list, required: false }
+      - { name: draft, label: Draft, widget: boolean, default: true }
+      - { name: body, label: Body, widget: markdown }
+  - name: experiments
+    label: Experiments
+    folder: src/content/experiments
+    extension: md
+    create: true
+    fields: *common
+  - name: timeline
+    label: Timeline
+    folder: src/content/timeline
+    extension: md
+    create: true
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: summary, label: Summary, widget: text }
+      - { name: date, label: Date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: link, label: "Link to entry (e.g. /writing/slug)", widget: string, required: false }
+      - { name: tags, label: Tags, widget: list, required: false }
+      - { name: draft, label: Draft, widget: boolean, default: true }
+      - { name: body, label: Body, widget: markdown }
+  - name: reading
+    label: Reading log
+    folder: src/content/reading
+    extension: md
+    create: true
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: author, label: Author, widget: string }
+      - { name: status, label: Status, widget: select, options: [want, reading, finished] }
+      - { name: rating, label: Rating, widget: number, min: 1, max: 5, required: false }
+      - { name: summary, label: Summary, widget: text }
+      - { name: date, label: Date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: tags, label: Tags, widget: list, required: false }
+      - { name: draft, label: Draft, widget: boolean, default: true }
+      - { name: body, label: Body, widget: markdown }
+  - name: logs
+    label: Logs
+    folder: src/content/logs
+    extension: md
+    create: true
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: summary, label: Summary, widget: text }
+      - { name: date, label: Date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: activity, label: Activity, widget: string, required: false }
+      - { name: odometer, label: Odometer (km), widget: number, required: false }
+      - { name: fuel_litres, label: Fuel (L), widget: number, value_type: float, required: false }
+      - { name: fuel_cost, label: Fuel cost, widget: number, value_type: float, required: false }
+      - { name: tags, label: Tags, widget: list, required: false }
+      - { name: draft, label: Draft, widget: boolean, default: true }
+      - { name: body, label: Body, widget: markdown }
+  - name: photos
+    label: Photos
+    folder: src/content/photos
+    extension: md
+    create: true
+    media_folder: /public/photos
+    public_folder: /akanksh-site/photos
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: image, label: Image, widget: image }
+      - { name: alt, label: Alt text, widget: string }
+      - { name: caption, label: Caption, widget: string, required: false }
+      - { name: draft, label: Draft, widget: boolean, default: true }

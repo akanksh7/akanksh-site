@@ -1,0 +1,35 @@
+---
+import { site, sections, nav } from '../config';
+const { title, description = site.bio } = Astro.props;
+const b = import.meta.env.BASE_URL.replace(/\/$/, '');
+const canonical = new URL(Astro.url.pathname, site.url).href;
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{title === site.name ? title : `${title} — ${site.name}`}</title><meta name="description" content={description}>
+<link rel="canonical" href={canonical}><meta property="og:title" content={title}><meta property="og:description" content={description}><meta property="og:url" content={canonical}>
+<link rel="alternate" type="application/rss+xml" href={`${b}/rss.xml`}>
+<script is:inline>var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.dataset.theme=t</script>
+<style is:global>
+:root{--bg:#faf9f6;--fg:#1a1a1a;--mut:#6b6b66;--line:#e3e1db;--acc:#7a4b2a;--serif:Charter,'Iowan Old Style',Georgia,serif;--sans:system-ui,-apple-system,'Segoe UI',sans-serif}
+[data-theme=dark]{--bg:#141413;--fg:#ecebe6;--mut:#9a9a93;--line:#2c2c29;--acc:#d49a6a}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--bg);padding:8px;z-index:9}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.65 var(--serif)}
+a{color:inherit;text-decoration-color:var(--line);text-underline-offset:3px}a:hover{color:var(--acc)}:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.w{max-width:1040px;margin:0 auto;padding:0 24px}.prose{max-width:680px}
+header .w{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:24px;padding-bottom:24px;font-family:var(--sans);font-size:15px}
+nav{display:flex;gap:22px;align-items:center;flex-wrap:wrap}.logo{font-weight:600;letter-spacing:.18em;text-decoration:none}
+button.t{background:none;border:1px solid var(--line);color:var(--fg);border-radius:99px;padding:6px 14px;cursor:pointer;font:inherit}
+h1{font-size:clamp(2.2rem,6vw,4.2rem);line-height:1.08;letter-spacing:-.02em;font-weight:500;margin:.4em 0}h2{font-weight:500;margin-top:2em}
+.meta{font:13px var(--sans);color:var(--mut);text-transform:uppercase;letter-spacing:.08em}.sub{color:var(--mut);font-size:1.2rem}
+.row{display:block;padding:22px 0;border-top:1px solid var(--line);text-decoration:none}.row h3{margin:.2em 0;font-size:1.5rem;font-weight:500}.row p{margin:0;color:var(--mut)}
+footer{border-top:1px solid var(--line);margin-top:96px;padding:32px 0;font:14px var(--sans);color:var(--mut)}footer .w{display:flex;gap:20px;flex-wrap:wrap}
+pre{padding:16px;overflow-x:auto;border-radius:6px;font-size:14px;border:1px solid var(--line)}[data-theme=dark] .astro-code,[data-theme=dark] .astro-code span{color:var(--shiki-dark)!important;background:transparent!important}
+blockquote{border-left:2px solid var(--acc);margin-left:0;padding-left:20px;color:var(--mut)}img{max-width:100%;height:auto}
+@media(prefers-reduced-motion:no-preference){main{animation:f .4s ease}@keyframes f{from{opacity:0;transform:translateY(6px)}}}
+</style></head><body><a class="skip" href="#main">Skip to content</a>
+<header><div class="w"><a class="logo" href={`${b}/`}>{site.name}</a><nav aria-label="Main">
+{nav.map(k=><a href={`${b}/${k}/`}>{sections[k]}</a>)}<a href={`${b}/about/`}>About</a><a href={`${b}/search/`}>Search</a>
+<button class="t" id="tt" aria-label="Toggle theme">Theme</button></nav></div></header>
+<main id="main" class="w"><slot/></main>
+<footer><div class="w"><a href={site.links.github}>GitHub</a><a href={site.links.linkedin}>LinkedIn</a><a href={site.links.email}>Email</a><a href={`${b}/about/`}>About</a><a href={`${b}/experiments/`}>Experiments</a><a href={`${b}/reading/`}>Reading</a><a href={`${b}/timeline/`}>Timeline</a><a href={`${b}/logs/`}>Logs</a><a href={`${b}/photos/`}>Photos</a><a href={`${b}/now/`}>Now</a><a href={`${b}/contact/`}>Contact</a><a href={`${b}/rss.xml`}>RSS</a></div></footer>
+<script is:inline>document.getElementById('tt').onclick=()=>{var d=document.documentElement,n=d.dataset.theme==='dark'?'light':'dark';d.dataset.theme=n;localStorage.setItem('theme',n)}</script>
+</body></html>

@@ -1,0 +1,13 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { sections, colOf } from '../../config';
+export function getStaticPaths(){return Object.keys(sections).map(s=>({params:{section:s}}))}
+const { section } = Astro.params; const b = import.meta.env.BASE_URL.replace(/\/$/, '');
+const col = colOf[section as string] ?? section;
+const items = (await getCollection(col as any,(e:any)=>!e.data.draft)).sort((x:any,y:any)=>+y.data.date-+x.data.date);
+const label = sections[section as keyof typeof sections];
+---
+<Base title={label}><h1>{label}</h1>
+{section==='knowledge' ? [...new Set(items.map((e:any)=>e.data.category.split('/').map((s:string)=>s.trim()).join(' › ')))].sort().map((cat:string)=><section><h2>{cat}</h2>{items.filter((e:any)=>e.data.category.split('/').map((s:string)=>s.trim()).join(' › ')===cat).map((e:any)=><a class="row" href={`${b}/${section}/${e.id}/`}><h3>{e.data.title}</h3><p>{e.data.summary}</p></a>)}</section>) : items.map((e:any)=><a class="row" href={`${b}/${section}/${e.id}/`}><span class="meta">{e.data.date.toISOString().slice(0,10)}{e.data.tags.length?' · '+e.data.tags.join(', '):''}</span><h3>{e.data.title}</h3><p>{e.data.summary}</p></a>)}
+{!items.length && <p class="sub">Nothing published yet.</p>}</Base>

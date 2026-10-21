@@ -1,0 +1,6 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+const [e] = await getCollection('now'); const C = e ? (await render(e)).Content : null;
+---
+<Base title="Now"><div class="prose" style="padding:56px 0"><h1>Now</h1>{e && <p class="meta">Updated {e.data.updated.toISOString().slice(0,10)}</p>}{C ? <C/> : <p>Nothing yet.</p>}</div></Base>

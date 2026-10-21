@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const b = import.meta.env.BASE_URL.replace(/\/$/, '');
+const items = (await getCollection('photos',(e:any)=>!e.data.draft)).sort((x:any,y:any)=>+y.data.date-+x.data.date);
+const src = (i:string)=> /^https?:/.test(i) ? i : b + i.replace(b,'');
+---
+<Base title="Photos"><h1>Photos</h1>
+<div data-pagefind-body style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:32px">
+{items.map((e:any)=><span hidden data-pagefind-filter="type">Photos</span><figure style="margin:0"><img src={src(e.data.image)} alt={e.data.alt} loading="lazy" decoding="async" style="width:100%;aspect-ratio:3/2;object-fit:cover"/><figcaption class="meta" style="margin-top:8px">{e.data.date.toISOString().slice(0,10)}{e.data.caption?' · '+e.data.caption:''}</figcaption></figure>)}</div>
+{!items.length && <p class="sub">No photos yet.</p>}</Base>

@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { site, profile } from '../config';
+const b = import.meta.env.BASE_URL.replace(/\/$/, '');
+const tl = (await getCollection('timeline',(e:any)=>!e.data.draft)).sort((x:any,y:any)=>+x.data.date-+y.data.date);
+const gh = profile.github !== 'YOURUSER' ? profile.github : '';
+---
+<Base title="About"><div class="prose" style="padding:56px 0"><h1>About</h1><p>{site.bio}</p>
+{profile.resume && <p><a href={b+profile.resume}>Download resume (PDF)</a></p>}
+<h2>Experience</h2>{profile.experience.map(x=><p><strong>{x.role}</strong>, {x.org} <span class="meta">{x.period}</span><br/><span class="sub" style="font-size:1rem">{x.note}</span></p>)}
+<h2>Education</h2>{profile.education.map(x=><p><strong>{x.what}</strong>, {x.org} <span class="meta">{x.period}</span></p>)}
+<h2>Interests</h2><p>{profile.interests.join(', ')}</p>
+<h2>Timeline</h2>{tl.map((e:any)=><p><span class="meta">{e.data.date.toISOString().slice(0,10)}</span><br/>{e.data.link ? <a href={b+e.data.link.replace(b,'')+'/'}>{e.data.title}</a> : e.data.title}</p>)}
+{gh && <><h2>Recent public repositories</h2><ul id="gh" aria-live="polite"></ul>
+<script is:inline define:vars={{gh}}>fetch('https://api.github.com/users/'+encodeURIComponent(gh)+'/repos?sort=pushed&per_page=5').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(a){var u=document.getElementById('gh');a.forEach(function(x){var li=document.createElement('li'),l=document.createElement('a');l.href=x.html_url;l.textContent=x.name;li.appendChild(l);u.appendChild(li)})}).catch(function(){var u=document.getElementById('gh');if(u&&u.previousElementSibling)u.previousElementSibling.remove();if(u)u.remove()})</script></>}
+</div></Base>

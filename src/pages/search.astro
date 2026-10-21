@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+const b = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base title="Search"><h1>Search</h1><div id="s"></div><noscript>Search needs JavaScript.</noscript>
+<link rel="stylesheet" href={`${b}/pagefind/pagefind-ui.css`}>
+<script is:inline define:vars={{b}}>
+var s=document.createElement('script');s.src=b+'/pagefind/pagefind-ui.js';
+s.onload=function(){new PagefindUI({element:'#s',showSubResults:true,baseUrl:b+'/'})};
+s.onerror=function(){document.getElementById('s').textContent='Search index is created by npm run build; unavailable in dev mode.'};
+document.body.appendChild(s)</script></Base>
