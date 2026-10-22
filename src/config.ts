@@ -4,9 +4,8 @@ export const site = {
   bio: 'Placeholder bio. Replace with your own.',
   links: { github: 'https://github.com/akanksh7', linkedin: 'https://linkedin.com/in/YOURUSER', email: 'mailto:you@example.com' },
 };
-export const sections = { writing: 'Writing', projects: 'Projects', knowledge: 'Knowledge', experiments: 'Experiments', reading: 'Reading', motorcycle: 'Motorcycle', timeline: 'Timeline' } as const;
-export const nav = ['writing', 'projects', 'knowledge', 'motorcycle'] as const;
-export const colOf: Record<string, string> = { knowledge: 'notes', motorcycle: 'logs' };
+export const sections = { writing: 'Blogs', projects: 'Projects', reading: 'Reading', motorcycle: 'Motorcycle', timeline: 'Timeline' } as const;
+export const colOf: Record<string, string> = { motorcycle: 'logs' };
 // About-page data. All values are placeholders: replace, do not trust.
 export const profile = {
   github: 'akanksh7',          // public repos are fetched client-side only when this is changed

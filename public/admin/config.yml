@@ -23,12 +23,6 @@ collections:
       - { name: draft, label: Draft, widget: boolean, default: true }
       - { name: category, label: Category, widget: string, default: General }
       - { name: body, label: Body, widget: markdown }
-  - name: notes
-    label: Knowledge notes
-    folder: src/content/notes
-    extension: md
-    create: true
-    fields: *common
   - name: projects
     label: Projects
     folder: src/content/projects
@@ -45,12 +39,6 @@ collections:
       - { name: tags, label: Tags, widget: list, required: false }
       - { name: draft, label: Draft, widget: boolean, default: true }
       - { name: body, label: Body, widget: markdown }
-  - name: experiments
-    label: Experiments
-    folder: src/content/experiments
-    extension: md
-    create: true
-    fields: *common
   - name: timeline
     label: Timeline
     folder: src/content/timeline
@@ -101,6 +89,8 @@ collections:
               - { name: odometer, label: Odometer (km), widget: number }
               - { name: litres, label: Litres, widget: number, value_type: float }
               - { name: cost, label: Cost (INR), widget: number, value_type: float }
+              - { name: bunk, label: Petrol bunk name, widget: string, required: false }
+              - { name: fuel, label: Petrol type (e.g. Regular / Premium), widget: string, required: false }
   - name: photos
     label: Photos
     folder: src/content/photos

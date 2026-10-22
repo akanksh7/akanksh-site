@@ -1,7 +1,7 @@
 {"sample":true,"fills":[
-{"date":"2026-06-02","odometer":12000,"litres":8.2,"cost":850},
-{"date":"2026-06-24","odometer":12340,"litres":8.0,"cost":830},
-{"date":"2026-07-18","odometer":12690,"litres":8.6,"cost":900},
-{"date":"2026-08-09","odometer":13010,"litres":8.1,"cost":860},
-{"date":"2026-09-01","odometer":13380,"litres":8.5,"cost":905},
-{"date":"2026-09-26","odometer":13720,"litres":8.3,"cost":890}]}
+{"date":"2026-06-02","odometer":12000,"litres":8.2,"cost":850,"bunk":"Sample Bunk A","fuel":"Regular petrol"},
+{"date":"2026-06-24","odometer":12340,"litres":8.0,"cost":830,"bunk":"Sample Bunk A","fuel":"Regular petrol"},
+{"date":"2026-07-18","odometer":12690,"litres":8.6,"cost":900,"bunk":"Sample Bunk B","fuel":"Premium petrol"},
+{"date":"2026-08-09","odometer":13010,"litres":8.1,"cost":860,"bunk":"Sample Bunk A","fuel":"Regular petrol"},
+{"date":"2026-09-01","odometer":13380,"litres":8.5,"cost":905,"bunk":"Sample Bunk B","fuel":"Premium petrol"},
+{"date":"2026-09-26","odometer":13720,"litres":8.3,"cost":890,"bunk":"Sample Bunk A","fuel":"Regular petrol"}]}
