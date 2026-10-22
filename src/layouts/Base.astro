@@ -10,9 +10,14 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
 <link rel="alternate" type="application/rss+xml" href={`${b}/rss.xml`}>
 <script is:inline>var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.dataset.theme=t</script>
 <style is:global>
-:root{--bg:#faf9f6;--fg:#1a1a1a;--mut:#6b6b66;--line:#e3e1db;--acc:#7a4b2a;--serif:Charter,'Iowan Old Style',Georgia,serif;--sans:system-ui,-apple-system,'Segoe UI',sans-serif}
-[data-theme=dark]{--bg:#141413;--fg:#ecebe6;--mut:#9a9a93;--line:#2c2c29;--acc:#d49a6a}
-.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--bg);padding:8px;z-index:9}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.65 var(--serif)}
+:root{--bg:#faf9f6;--fg:#1a1a1a;--mut:#6b6b66;--line:#e3e1db;--acc:#7a4b2a;--serif:Charter,'Iowan Old Style',Georgia,serif;--surface:#f3f1ea;--sans:system-ui,-apple-system,'Segoe UI',sans-serif}
+[data-theme=dark]{--surface:#1c1c1a;--bg:#141413;--fg:#ecebe6;--mut:#9a9a93;--line:#2c2c29;--acc:#d49a6a}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--bg);padding:8px;z-index:9}.rule{width:56px;height:3px;background:var(--acc);margin:0 0 20px}.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin:8px 0 56px}
+.tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;transition:border-color .2s,transform .2s}.tile:hover{border-color:var(--acc);transform:translateY(-2px)}.tile h3{margin:0 0 4px;font-size:1.25rem;font-weight:500}.tile p{margin:0;color:var(--mut);font-size:.95rem}
+.feat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px;margin:12px 0 48px}.row:hover h3{color:var(--acc)}
+details.more{position:relative}details.more summary{cursor:pointer;list-style:none}details.more summary::after{content:' ▾'}.menu{position:absolute;right:0;top:100%;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 18px;min-width:150px;z-index:5}.menu a{display:block;padding:6px 0;text-decoration:none}
+table{border-collapse:collapse;width:100%;font:15px var(--sans)}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:24px 0}.stat{background:var(--surface);border-radius:10px;padding:14px 16px}.stat b{display:block;font-size:1.5rem;font-weight:500}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.65 var(--serif)}
 a{color:inherit;text-decoration-color:var(--line);text-underline-offset:3px}a:hover{color:var(--acc)}:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 .w{max-width:1040px;margin:0 auto;padding:0 24px}.prose{max-width:680px}
 header .w{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:24px;padding-bottom:24px;font-family:var(--sans);font-size:15px}
@@ -27,9 +32,9 @@ blockquote{border-left:2px solid var(--acc);margin-left:0;padding-left:20px;colo
 @media(prefers-reduced-motion:no-preference){main{animation:f .4s ease}@keyframes f{from{opacity:0;transform:translateY(6px)}}}
 </style></head><body><a class="skip" href="#main">Skip to content</a>
 <header><div class="w"><a class="logo" href={`${b}/`}>{site.name}</a><nav aria-label="Main">
-{nav.map(k=><a href={`${b}/${k}/`}>{sections[k]}</a>)}<a href={`${b}/about/`}>About</a><a href={`${b}/search/`}>Search</a>
+{nav.map(k=><a href={`${b}/${k}/`}>{sections[k]}</a>)}<details class="more"><summary>More</summary><div class="menu"><a href={`${b}/reading/`}>Reading</a><a href={`${b}/photos/`}>Photos</a><a href={`${b}/experiments/`}>Experiments</a><a href={`${b}/timeline/`}>Timeline</a><a href={`${b}/now/`}>Now</a></div></details><a href={`${b}/about/`}>About</a><a href={`${b}/search/`}>Search</a>
 <button class="t" id="tt" aria-label="Toggle theme">Theme</button></nav></div></header>
 <main id="main" class="w"><slot/></main>
-<footer><div class="w"><a href={site.links.github}>GitHub</a><a href={site.links.linkedin}>LinkedIn</a><a href={site.links.email}>Email</a><a href={`${b}/about/`}>About</a><a href={`${b}/experiments/`}>Experiments</a><a href={`${b}/reading/`}>Reading</a><a href={`${b}/timeline/`}>Timeline</a><a href={`${b}/logs/`}>Logs</a><a href={`${b}/photos/`}>Photos</a><a href={`${b}/now/`}>Now</a><a href={`${b}/contact/`}>Contact</a><a href={`${b}/rss.xml`}>RSS</a></div></footer>
+<footer><div class="w"><span>© {new Date().getFullYear()} {site.name}</span><a href={site.links.github}>GitHub</a><a href={site.links.linkedin}>LinkedIn</a><a href={site.links.email}>Email</a><a href={`${b}/rss.xml`}>RSS</a></div></footer>
 <script is:inline>document.getElementById('tt').onclick=()=>{var d=document.documentElement,n=d.dataset.theme==='dark'?'light':'dark';d.dataset.theme=n;localStorage.setItem('theme',n)}</script>
 </body></html>

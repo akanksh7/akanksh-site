@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import fuel from '../../data/fuel.json';
+const b = import.meta.env.BASE_URL.replace(/\/$/, '');
+const posts = (await getCollection('logs',(e:any)=>!e.data.draft)).sort((x:any,y:any)=>+y.data.date-+x.data.date);
+const fills:any[] = [...fuel.fills].sort((a,c)=>a.date.localeCompare(c.date));
+const rows = fills.map((f,i)=>{const km=i?f.odometer-fills[i-1].odometer:0;return {...f,km,kmpl:i&&f.litres?km/f.litres:null}});
+const w = rows.filter(r=>r.kmpl!=null);
+const sum=(a:any[],k:string)=>a.reduce((s,r)=>s+r[k],0);
+const avg = w.length?sum(w,'km')/sum(w,'litres'):0, perKm = w.length?sum(w,'cost')/sum(w,'km'):0;
+const months=[...new Set(rows.map(r=>r.date.slice(0,7)))].map(m=>{const r=rows.filter(x=>x.date.startsWith(m)),q=r.filter(x=>x.kmpl!=null);return {m,spent:sum(r,'cost'),litres:sum(r,'litres'),kmpl:q.length?sum(q,'km')/sum(q,'litres'):null}});
+const W=640,H=210,P=36; const T=rows.map(r=>+new Date(r.date)); const t0=Math.min(...T),t1=Math.max(...T);
+const X=(d:string)=>P+((+new Date(d)-t0)/((t1-t0)||1))*(W-2*P);
+const mk=(vals:number[],lo:number)=>{const hi=Math.max(...vals)*1.1;return (v:number)=>H-P-((v-lo)/((hi-lo)||1))*(H-2*P)};
+const maxCost=Math.max(...rows.map(r=>r.cost),1), Yc=mk(rows.map(r=>r.cost),0);
+const lo=w.length?Math.floor(Math.min(...w.map(r=>r.kmpl))*0.9):0, Ym=mk(w.map(r=>r.kmpl),lo);
+const line=w.map(r=>`${X(r.date)},${Ym(r.kmpl)}`).join(' ');
+---
+<Base title="Motorcycle"><div style="padding:56px 0 0"><h1>Motorcycle</h1><p class="sub">Weekly notes on what I learn, plus a fuel and mileage tracker.</p></div>
+<h2>Fuel and mileage</h2>
+{fuel.sample && <p class="meta">Sample data. Replace the entries in src/data/fuel.json (or use the editor's Fuel log).</p>}
+{rows.length<2 ? <p>Add at least two fill-ups to see mileage.</p> : <>
+<div class="stats"><div class="stat"><span class="meta">Total spent</span><b>₹{Math.round(sum(rows,'cost')).toLocaleString('en-IN')}</b></div><div class="stat"><span class="meta">Fuel bought</span><b>{sum(rows,'litres').toFixed(1)} L</b></div><div class="stat"><span class="meta">Average mileage</span><b>{avg.toFixed(1)} km/l</b></div><div class="stat"><span class="meta">Cost per km</span><b>₹{perKm.toFixed(2)}</b></div></div>
+<p class="meta">Amount paid per fill-up (₹)</p>
+<svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Bar chart of the amount paid at each fill-up over time" style="width:100%;height:auto"><line x1={P} y1={H-P} x2={W-P} y2={H-P} stroke="var(--line)"/>
+{rows.map(r=><><rect x={X(r.date)-7} y={Yc(r.cost)} width="14" height={H-P-Yc(r.cost)} fill="var(--acc)" rx="2"/><text x={X(r.date)} y={Yc(r.cost)-5} font-size="11" text-anchor="middle" fill="var(--mut)">{Math.round(r.cost)}</text></>)}
+<text x={P} y={H-10} font-size="11" fill="var(--mut)">{rows[0].date}</text><text x={W-P} y={H-10} font-size="11" text-anchor="end" fill="var(--mut)">{rows[rows.length-1].date}</text></svg>
+<p class="meta">Mileage per fill-up (km/l)</p>
+<svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Line chart of mileage in km per litre over time" style="width:100%;height:auto"><line x1={P} y1={H-P} x2={W-P} y2={H-P} stroke="var(--line)"/><polyline points={line} fill="none" stroke="var(--acc)" stroke-width="2"/>
+{w.map(r=><><circle cx={X(r.date)} cy={Ym(r.kmpl)} r="4" fill="var(--acc)"/><text x={X(r.date)} y={Ym(r.kmpl)-9} font-size="11" text-anchor="middle" fill="var(--mut)">{r.kmpl.toFixed(1)}</text></>)}
+<text x={P} y={H-10} font-size="11" fill="var(--mut)">{rows[0].date}</text><text x={W-P} y={H-10} font-size="11" text-anchor="end" fill="var(--mut)">{rows[rows.length-1].date}</text></svg>
+<h3>By month</h3><div style="overflow-x:auto"><table><thead><tr><th>Month</th><th>Spent</th><th>Litres</th><th>km/l</th></tr></thead><tbody>{months.map(m=><tr><td>{m.m}</td><td>₹{Math.round(m.spent)}</td><td>{m.litres.toFixed(1)}</td><td>{m.kmpl?m.kmpl.toFixed(1):'–'}</td></tr>)}</tbody></table></div>
+<p class="meta">Mileage assumes you fill the tank each time. It is distance since the previous fill divided by litres added.</p></>}
+<h2>Weekly notes</h2>
+{posts.map((e:any)=><a class="row" href={`${b}/motorcycle/${e.id}/`}><span class="meta">{e.data.date.toISOString().slice(0,10)}</span><h3>{e.data.title}</h3><p>{e.data.summary}</p></a>)}
+{!posts.length && <p class="sub">No notes yet.</p>}</Base>

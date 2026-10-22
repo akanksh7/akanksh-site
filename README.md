@@ -49,3 +49,8 @@ Free-tier terms were not re-verified in this session; check GitHub and Cloudflar
 
 ## Known limitations
 No contact form (mailto only). No image resizing. No cross-links between notes beyond normal Markdown links. GitHub Pages cannot set security headers. Private notes are not supported; nothing here is private. Not browser- or Lighthouse-tested.
+
+## Add your details (simple)
+- About, links, bio: edit `src/config.ts` on github.com (open the file, click the pencil icon, commit). The site rebuilds in about a minute.
+- Motorcycle fuel: add a line to `src/data/fuel.json`, set `"sample": false`. Weekly notes: add a Markdown file to `src/content/logs/`.
+- Everything is reachable from the header, the "More" menu, or the homepage tiles. The footer has only social links.

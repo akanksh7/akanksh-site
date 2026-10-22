@@ -1,11 +1,7 @@
 ---
-title: Demo motorcycle log (placeholder values)
-summary: Example record; the numbers are made up.
+title: "Week 1 (sample) - what I learned about chain care"
+summary: Sample weekly note. Replace with your own.
 date: 2026-10-19
-activity: Fuel stop
-odometer: 1000
-fuel_litres: 5
-fuel_cost: 500
-tags: [demo, motorcycle]
+tags: [demo, maintenance]
 ---
-Observations go here.
+Write what you learned this week about your bike.

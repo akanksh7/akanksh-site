@@ -4,17 +4,14 @@ import { getCollection } from 'astro:content';
 import { site } from '../config';
 const b = import.meta.env.BASE_URL.replace(/\/$/, '');
 const pub = async (c:any)=> (await getCollection(c,(e:any)=>!e.data.draft)).sort((x:any,y:any)=>+y.data.date-+x.data.date);
-const [w,p,n] = [await pub('writing'),await pub('projects'),await pub('notes')];
+const [w,p] = [await pub('writing'),await pub('projects')];
 const feat = p.find((x:any)=>x.data.featured) ?? p[0];
-const top = (x:any)=>x.data.category.split('/')[0].trim();
-const cats = [...new Set(n.map(top))].sort();
+const tiles = [['writing','Writing','Articles and essays'],['projects','Projects','Things I have built'],['knowledge','Knowledge','Notes I want to remember'],['motorcycle','Motorcycle','Weekly learnings and a fuel tracker'],['reading','Reading','Books and notes'],['photos','Photos','A visual journal'],['experiments','Experiments','What I tried, what I learned']];
 ---
 <Base title={site.name}>
-<section style="padding:72px 0 48px"><h1>Things I've built. Things I've learned. Things I don't want to forget.</h1>
-<p class="sub">A personal archive of software, ideas, experiments, and lessons.</p>
-<p class="meta"><a href={`${b}/writing/`}>Writing</a> · <a href={`${b}/projects/`}>Projects</a> · <a href={`${b}/knowledge/`}>Knowledge</a></p></section>
-{feat && <section><p class="meta">Featured project</p><a class="row" href={`${b}/projects/${feat.id}/`}><h3 style="font-size:2.4rem">{feat.data.title}</h3><p>{feat.data.summary}</p></a></section>}
+<section style="padding:72px 0 40px"><div class="rule"></div><h1>Things I've built. Things I've learned. Things I don't want to forget.</h1>
+<p class="sub">A personal archive of software, ideas, experiments, and lessons.</p></section>
+<div class="tiles">{tiles.map(([k,t,d])=><a class="tile" href={`${b}/${k}/`}><h3>{t}</h3><p>{d}</p></a>)}</div>
+{feat && <section><p class="meta">Featured project</p><a class="feat row" style="display:block" href={`${b}/projects/${feat.id}/`}><h3 style="font-size:2rem">{feat.data.title}</h3><p>{feat.data.summary}</p></a></section>}
 <section><p class="meta">Latest writing</p>{w.slice(0,4).map((e:any)=><a class="row" href={`${b}/writing/${e.id}/`}><span class="meta">{e.data.date.toISOString().slice(0,10)} · {e.data.category}</span><h3>{e.data.title}</h3><p>{e.data.summary}</p></a>)}</section>
-<p class="meta">{[`${w.length} article${w.length===1?'':'s'}`,`${n.length} note${n.length===1?'':'s'}`,`${p.length} project${p.length===1?'':'s'}`,`${cats.length} categor${cats.length===1?'y':'ies'}`].join(' · ')}</p>
-<section><p class="meta">Knowledge archive</p>{cats.map(c=><a class="row" href={`${b}/knowledge/`}><h3>{c}</h3><p>{n.filter((x:any)=>top(x)===c).length} notes</p></a>)}</section>
 </Base>
