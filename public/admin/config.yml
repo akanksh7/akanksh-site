@@ -87,10 +87,20 @@ collections:
             fields:
               - { name: date, label: "Date (YYYY-MM-DD)", widget: string }
               - { name: odometer, label: Odometer (km), widget: number }
-              - { name: litres, label: Litres, widget: number, value_type: float }
+              - { name: distance, label: Distance since last fill (km), widget: number }
+              - { name: mileage, label: Mileage over that distance (km/l), widget: number, value_type: float }
+              - { name: litres, label: Litres filled, widget: number, value_type: float }
               - { name: cost, label: Cost (INR), widget: number, value_type: float }
               - { name: bunk, label: Petrol bunk name, widget: string, required: false }
               - { name: fuel, label: Petrol type (e.g. Regular / Premium), widget: string, required: false }
+          - name: other_costs
+            label: Other costs (chain lube, service, etc.)
+            widget: list
+            required: false
+            fields:
+              - { name: date, label: "Date (YYYY-MM-DD)", widget: string }
+              - { name: item, label: What was it, widget: string }
+              - { name: cost, label: Cost (INR), widget: number, value_type: float }
   - name: photos
     label: Photos
     folder: src/content/photos

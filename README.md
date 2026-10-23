@@ -52,5 +52,5 @@ No contact form (mailto only). No image resizing. No cross-links between notes b
 
 ## Add your details (simple)
 - About, links, bio: edit `src/config.ts` on github.com (open the file, click the pencil icon, commit). The site rebuilds in about a minute.
-- Motorcycle fuel: add a line to `src/data/fuel.json`, set `"sample": false`. Weekly notes: add a Markdown file to `src/content/logs/`.
+- Motorcycle fuel: add a fill-up to `src/data/fuel.json` (date, odometer, distance since last fill, mileage over that distance, litres, cost, bunk, fuel). Optional one-off costs go in `other_costs`. Set `"sample": false`. Weekly notes: add a Markdown file to `src/content/logs/`.
 - Everything is reachable from the header, the "More" menu, or the homepage tiles. The footer has only social links.

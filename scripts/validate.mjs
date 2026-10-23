@@ -13,5 +13,9 @@ for (const f of files) {
   const tl = (f.text.match(/^link:\s*"?\/?([a-z]+)\/([^"\s\/]+)/m) || []); if (f.col === 'timeline' && tl[1] && !known.has(`${tl[1]}/${tl[2]}`)) errs.push(`${f.file}: timeline link target missing ${tl[1]}/${tl[2]}`);
   if (f.col === 'photos') { const img = (f.text.match(/^image:\s*"?([^"\n]+)"?/m) || [])[1]; if (!img) errs.push(`${f.file}: missing image`); else { const rel = img.replace(base, ''); if (!fs.existsSync(path.join('public', rel))) errs.push(`${f.file}: image not found public${rel}`); } if (!/^alt:\s*\S/m.test(f.text)) errs.push(`${f.file}: missing alt text`); }
 }
+try { const fj = JSON.parse(fs.readFileSync('src/data/fuel.json', 'utf8')); const fl = [...fj.fills].sort((a, b) => a.date.localeCompare(b.date));
+  fl.forEach((x, i) => { for (const k of ['distance', 'mileage', 'litres', 'cost']) if (!(x[k] > 0)) errs.push(`fuel.json fill ${x.date}: ${k} must be > 0`); if (!/^\d{4}-\d\d-\d\d$/.test(x.date)) errs.push(`fuel.json: bad date ${x.date}`);
+    if (i) { const d = x.odometer - fl[i - 1].odometer; if (d < 0) errs.push(`fuel.json fill ${x.date}: odometer went backwards`); else if (Math.abs(d - x.distance) > 0.05 * x.distance) warns.push(`fuel.json fill ${x.date}: odometer difference ${d} km differs from distance ${x.distance} km`); } });
+  (fj.other_costs || []).forEach(o => { if (!o.item || !(o.cost > 0)) errs.push(`fuel.json other cost "${o.item}" needs an item and cost > 0`); }); } catch (e) { errs.push('fuel.json unreadable: ' + e.message); }
 warns.forEach(w => console.warn('WARN', w)); errs.forEach(e => console.error('ERROR', e));
 console.log(`validated ${files.length} content files, ${errs.length} error(s)`); process.exit(errs.length ? 1 : 0);
