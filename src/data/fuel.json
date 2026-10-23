@@ -1,6 +1,6 @@
 {"sample":false,
 "fills":[
-{"date":"2026-07-27","odometer":0,"distance":0,"mileage":0.0,"litres":11.0,"cost":1219.90,"bunk":"MRPL, Double Road, RR Nagar","fuel":"E20 petrol"},
+{"date":"2026-07-27","odometer":0,"distance":0.1,"mileage":0.1,"litres":11.0,"cost":1219.90,"bunk":"MRPL, Double Road, RR Nagar","fuel":"E20 petrol"},
 {"date":"2026-08-12","odometer":350.8,"distance":350.8,"mileage":34.0,"litres":10.8,"cost":1197.72,"bunk":"MRPL, Double Road, RR Nagar","fuel":"E20 petrol"},
 {"date":"2026-08-28","odometer":694,"distance":343.2,"mileage":34.0,"litres":13.4175,"cost":1488.00,"bunk":"MRPL, Double Road, RR Nagar","fuel":"E20 petrol"},
 {"date":"2026-09-18","odometer":1164.6,"distance":470.6,"mileage":35.4,"litres":14.0,"cost":1552.60,"bunk":"MRPL, Double Road, RR Nagar","fuel":"E20 petrol"},
